@@ -1,0 +1,13 @@
+<svg width="200" height="48" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#15803d"/>
+    </linearGradient>
+  </defs>
+  <circle cx="24" cy="24" r="22" fill="url(#cg)"/>
+  <rect x="16" y="16" width="3.5" height="16" rx="1.75" fill="#ffffff"/>
+  <rect x="22.5" y="9" width="3.5" height="30" rx="1.75" fill="#ffffff"/>
+  <rect x="29" y="13" width="3.5" height="22" rx="1.75" fill="#ffffff"/>
+  <text x="56" y="32" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#ffffff">Wavlin</text>
+</svg>

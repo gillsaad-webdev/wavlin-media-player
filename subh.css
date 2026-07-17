@@ -1,0 +1,17 @@
+.page-1 {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.subh>img{
+    border-radius: 17px;
+}
+.subh{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+    padding-bottom: 15px;
+}
