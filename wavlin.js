@@ -19,6 +19,39 @@ function setPlayIcon(playing) {
     if (!btn) return
     btn.src = playing ? "pause.svg" : "play.svg"
     btn.title = playing ? "Pause" : "Play"
+    updateSidebarIcon(currentIndex, playing)
+}
+
+// "Your Library" list ke andar jo song abhi baj raha hai uska icon update karo
+function updateSidebarIcon(activeIndex, playing) {
+    document.querySelectorAll(".playnow img").forEach(img => img.src = "play.svg")
+    if (activeIndex !== -1) {
+        let sideIcon = document.getElementById(`sideicon-${activeIndex}`)
+        if (sideIcon) sideIcon.src = playing ? "pause.svg" : "play.svg"
+    }
+}
+
+// "Your Library" list ko songs.json se populate karo
+function renderLibrary() {
+    let ul = document.querySelector(".library .songlist ul")
+    if (!ul) return
+    ul.innerHTML = ""
+
+    songs.forEach((fileName, index) => {
+        let title = fileName.replace(/\.mp3$/i, "")
+        let li = document.createElement("li")
+        li.innerHTML = `
+            <div class="info">
+                <div>${title}</div>
+            </div>
+            <div class="playnow">
+                <span>Play Now</span>
+                <img class="invert" id="sideicon-${index}" src="play.svg" alt="">
+            </div>
+        `
+        li.addEventListener("click", () => playSongAt(index))
+        ul.appendChild(li)
+    })
 }
 
 // Ek specific song ko index se play karo
@@ -55,6 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             songs = data
             setupCardClicks()
+            renderLibrary()
         })
         .catch(err => console.error("songs.json load error:", err))
 
