@@ -46,7 +46,7 @@ function renderLibrary() {
             </div>
             <div class="playnow">
                 <span>Play Now</span>
-                <img class="invert" id="sideicon-${index}" src="play.svg" alt="">
+                <img width="30px" class="invert" id="sideicon-${index}" src="play.svg" alt="">
             </div>
         `
         li.addEventListener("click", () => {
