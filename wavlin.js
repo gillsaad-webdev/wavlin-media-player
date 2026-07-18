@@ -49,9 +49,30 @@ function renderLibrary() {
                 <img class="invert" id="sideicon-${index}" src="play.svg" alt="">
             </div>
         `
-        li.addEventListener("click", () => playSongAt(index))
+        li.addEventListener("click", () => {
+            if (index === currentIndex) {
+                togglePlayPause()
+            } else {
+                playSongAt(index)
+            }
+        })
         ul.appendChild(li)
     })
+}
+
+// Currently loaded song ko play/pause toggle karo
+function togglePlayPause() {
+    if (currentIndex === -1) {
+        if (songs.length > 0) playSongAt(0)
+        return
+    }
+    if (currentsong.paused) {
+        currentsong.play()
+        setPlayIcon(true)
+    } else {
+        currentsong.pause()
+        setPlayIcon(false)
+    }
 }
 
 // Ek specific song ko index se play karo
@@ -89,25 +110,15 @@ document.addEventListener("DOMContentLoaded", () => {
             songs = data
             setupCardClicks()
             renderLibrary()
+            // Page load hote hi pehle song ka naam dikhao, bina play kiye
+            if (songs.length > 0) updateSongInfo(0)
         })
         .catch(err => console.error("songs.json load error:", err))
 
     // Play/Pause button
     let playBtn = document.getElementById("play")
     if (playBtn) {
-        playBtn.addEventListener("click", () => {
-            if (currentIndex === -1) {
-                if (songs.length > 0) playSongAt(0)
-                return
-            }
-            if (currentsong.paused) {
-                currentsong.play()
-                setPlayIcon(true)
-            } else {
-                currentsong.pause()
-                setPlayIcon(false)
-            }
-        })
+        playBtn.addEventListener("click", togglePlayPause)
     }
 
     // Next / Previous
@@ -162,6 +173,24 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => left.style.display = "none", 300)
         })
     }
+
+    // Keyboard shortcuts: Space = play/pause, Right/Left arrow = next/previous
+    document.addEventListener("keydown", (e) => {
+        // Agar user kisi input/slider mein type/drag kar raha hai to shortcut mat chalao
+        let tag = document.activeElement.tagName
+        if (tag === "INPUT" || tag === "TEXTAREA") return
+
+        if (e.code === "Space") {
+            e.preventDefault() // page scroll hone se roko
+            togglePlayPause()
+        } else if (e.code === "ArrowRight") {
+            e.preventDefault()
+            if (songs.length > 0) playSongAt((currentIndex + 1) % songs.length)
+        } else if (e.code === "ArrowLeft") {
+            e.preventDefault()
+            if (songs.length > 0) playSongAt((currentIndex - 1 + songs.length) % songs.length)
+        }
+    })
 })
 
 // Audio events
